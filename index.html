@@ -121,14 +121,22 @@
 // Registrar Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js')
+    // Ruta RELATIVA para GitHub Pages
+    navigator.serviceWorker.register('./sw.js')
       .then(function(registration) {
-        console.log('ServiceWorker registrado con éxito:', registration.scope);
+        console.log('✅ ServiceWorker registrado en:', registration.scope);
+        
+        // Verificar si ya está controlando la página
+        if (navigator.serviceWorker.controller) {
+          console.log('✅ ServiceWorker está controlando la página');
+        }
       })
       .catch(function(error) {
-        console.log('Error al registrar ServiceWorker:', error);
+        console.log('❌ Error al registrar ServiceWorker:', error);
       });
   });
+} else {
+  console.log('❌ ServiceWorker no soportado en este navegador');
 }
 </script>
     
