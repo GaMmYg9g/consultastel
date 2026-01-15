@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6a11cb">
+    <title>App Consultas Telefónicas</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css"> 
+
+</head>
+<body class="theme-purple">
+    <!-- Header para móviles -->
+    <div class="mobile-header">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <h1>Consultas Telefónicas</h1>
+        <button class="theme-toggle" id="themeToggleMobile">🎨</button>
+    </div>
+    
+    <!-- Overlay para menú móvil -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="app-container">
+        <!-- Menú lateral -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Menú de Consultas</h2>
+                <p>Todas tus consultas telefónicas</p>
+            </div>
+            
+            <!-- Selector de temas -->
+            <div class="theme-selector">
+                <h3>Selecciona un tema:</h3>
+                <div class="theme-options">
+                    <div class="theme-option theme-purple active" data-theme="purple"></div>
+                    <div class="theme-option theme-red" data-theme="red"></div>
+                    <div class="theme-option theme-green" data-theme="green"></div>
+                    <div class="theme-option theme-blue" data-theme="blue"></div>
+                    <div class="theme-option theme-dark" data-theme="dark"></div>
+                    <div class="theme-option theme-light" data-theme="light"></div>
+                </div>
+            </div>
+            
+            <ul class="menu-items">
+                <li class="menu-item active" data-consult="saldo">
+                    <span class="menu-icon">💰</span>
+                    <span>Consultar Saldo</span>
+                </li>
+                <li class="menu-item" data-consult="datos">
+                    <span class="menu-icon">📊</span>
+                    <span>Planes de Datos</span>
+                </li>
+                <li class="menu-item" data-consult="voz">
+                    <span class="menu-icon">📞</span>
+                    <span>Planes de Voz</span>
+                </li>
+                <li class="menu-item" data-consult="sms">
+                    <span class="menu-icon">💬</span>
+                    <span>Planes SMS</span>
+                </li>
+                <li class="menu-item" data-consult="bonos">
+                    <span class="menu-icon">🎁</span>
+                    <span>Consultar Bonos</span>
+                </li>
+                <li class="menu-item" data-consult="paquetes">
+                    <span class="menu-icon">🛒</span>
+                    <span>Comprar Paquetes</span>
+                </li>
+                <li class="menu-item" data-consult="cliente">
+                    <span class="menu-icon">👨‍💼</span>
+                    <span>Atención al Cliente</span>
+                </li>
+                <li class="menu-item" data-consult="buzon">
+                    <span class="menu-icon">📱</span>
+                    <span>Buzón de Voz</span>
+                </li>
+                <li class="menu-item" data-consult="transferir">
+                    <span class="menu-icon">🔄</span>
+                    <span>Transferir Saldo</span>
+                </li>
+                <li class="menu-item" data-consult="plan-amigo">
+                    <span class="menu-icon">👥</span>
+                    <span>Plan Amigo</span>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Tarjeta de consulta dinámica -->
+            <div class="consult-card">
+                <div class="consult-icon" id="consultIcon">💰</div>
+                <h2 class="consult-title" id="consultTitle">Consultar Saldo</h2>
+                <p class="consult-description" id="consultDescription">
+                    Consulta tu saldo actual en tu línea telefónica.
+                </p>
+                
+                <!-- Campos de entrada dinámicos -->
+                <div id="inputFields"></div>
+                
+                <!-- Código a marcar -->
+                <div class="code-display" id="codeDisplay">*222#</div>
+                
+                <!-- Botones de acción -->
+                <button id="actionBtn" class="btn">Consultar Saldo</button>
+                <button id="copyBtn" class="btn btn-secondary">Copiar Código</button>
+                
+                <!-- Notificación -->
+                <div id="notification" class="notification"></div>
+            </div>
+            
+            <div class="footer">
+                Realiza tus consultas telefonicas de manera más facil y dinamica.
+                <br><small>Versió0.1.0.1 - Compatible con iPhone y Android</small>
+            </div>
+        </main>
+    </div>
+
+<script src="app.js"></script>
+    
+</body>
+</html>
