@@ -1,24 +1,29 @@
-// Service Worker para la PWA de Consultas Telefónicas
-const CACHE_NAME = 'consultas-telefonicas-v2';
+// sw.js - VERSIÓN CORREGIDA para GitHub Pages
+const CACHE_NAME = 'consultas-telefonicas-v4';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  // Agrega aquí otros recursos estáticos si los tienes
+  './',                    // IMPORTANTE: ./ en lugar de /
+  './index.html',
+  './manifest.json',
+  './icon-512x512.png',
+  './icon-192x192.png',
+  './script.js',
+  './style.css'
 ];
 
-// Instalación del Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Cache abierto');
-        return cache.addAll(urlsToCache);
+        console.log('Cache abierto:', CACHE_NAME);
+        return cache.addAll(urlsToCache).catch(error => {
+          console.error('Error al cachear:', error);
+        });
       })
   );
+  // Fuerza a activar inmediatamente
+  self.skipWaiting();
 });
 
-// Activación y limpieza de caches antiguos
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -32,37 +37,47 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  // Toma control inmediato de todas las pestañas
+  return self.clients.claim();
 });
 
-// Estrategia: Cache First, luego Network
 self.addEventListener('fetch', event => {
+  // Solo cachear solicitudes GET
+  if (event.request.method !== 'GET') return;
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Devuelve la respuesta desde cache si existe
+        // Cache hit - devuelve respuesta
         if (response) {
           return response;
         }
         
-        // Clona la petición porque es un stream y solo se puede usar una vez
+        // Clonar la request
         const fetchRequest = event.request.clone();
         
-        return fetch(fetchRequest).then(response => {
-          // Verifica si la respuesta es válida
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+        return fetch(fetchRequest)
+          .then(response => {
+            // Verificar respuesta válida
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            
+            // Clonar para cachear
+            const responseToCache = response.clone();
+            
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseToCache);
+              });
+            
             return response;
-          }
-          
-          // Clona la respuesta para guardarla en cache y devolverla
-          const responseToCache = response.clone();
-          
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          
-          return response;
-        });
+          })
+          .catch(error => {
+            console.error('Error en fetch:', error);
+            // Podrías devolver una página offline aquí
+            return caches.match('./index.html');
+          });
       })
   );
 });
