@@ -9,9 +9,9 @@ const consultas = {
     },
     datos: {
         titulo: "Planes de Datos",
-        descripcion: "Consulta los planes de datos disponibles y tu consumo actual.",
+        descripcion: "Consulta cuando puedes recargar de nuevo.",
         icono: "📊",
-        codigo: "*222*238#",
+        codigo: "*222*732#",
         necesitaInput: false
     },
     voz: {
