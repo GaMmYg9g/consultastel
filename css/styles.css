@@ -1,0 +1,736 @@
+/* Reset y configuración general */
+:root {
+    --primary-color: #6a11cb;
+    --secondary-color: #2575fc;
+    --accent-color: #ff6b9d;
+    --bg-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --sidebar-bg: linear-gradient(180deg, #6a11cb 0%, #5a0cb3 100%);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-light: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(106, 17, 203, 0.2);
+    --input-bg: #f7fafc;
+    --notification-success: #c6f6d5;
+    --notification-error: #fed7d7;
+    --notification-info: #bee3f8;
+    --notification-warning: #fefcbf;
+    --radius: 16px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background var(--transition), color var(--transition);
+    background-attachment: fixed;
+}
+
+/* Contenedor principal */
+.app-container {
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+}
+
+/* Menú lateral - SOLO CONSULTAS */
+.sidebar {
+    width: 280px;
+    background: var(--sidebar-bg);
+    color: var(--text-light);
+    padding: 20px 0;
+    overflow-y: auto;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform var(--transition);
+    position: fixed;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 0 24px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: -0.5px;
+}
+
+.sidebar-header h2 i {
+    margin-right: 10px;
+}
+
+.sidebar-header p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* Menú items */
+.menu-items {
+    list-style: none;
+    padding: 0 12px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all var(--transition);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.menu-item.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    font-size: 1.2rem;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    padding: 30px 24px;
+    overflow-y: auto;
+    margin-left: 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    transition: background var(--transition);
+}
+
+/* Header móvil */
+.mobile-header {
+    display: none;
+    padding: 16px 20px;
+    background: var(--bg-gradient);
+    color: var(--text-light);
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+}
+
+.mobile-header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.mobile-header h1 i {
+    margin-right: 8px;
+}
+
+.menu-toggle,
+.theme-toggle-header {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background var(--transition);
+}
+
+.menu-toggle:hover,
+.theme-toggle-header:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    backdrop-filter: blur(4px);
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* Modal de temas (independiente) */
+.theme-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    padding: 20px;
+}
+
+.theme-modal.active {
+    display: flex;
+}
+
+.theme-modal-content {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.3s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.theme-modal-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.theme-modal-header h3 i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.theme-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all var(--transition);
+}
+
+.theme-modal-close:hover {
+    background: var(--input-bg);
+    color: var(--text-primary);
+}
+
+.theme-modal-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.theme-option {
+    width: 100%;
+    height: 48px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+}
+
+.theme-option:hover {
+    transform: scale(1.05);
+}
+
+.theme-option.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.3);
+}
+
+/* Colores de temas */
+.theme-purple { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+.theme-red { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+.theme-green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.theme-blue { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
+.theme-dark { background: linear-gradient(135deg, #232526, #414345); }
+.theme-light { background: linear-gradient(135deg, #f5f7fa, #c3cfe2); }
+
+.theme-modal-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 12px;
+}
+
+/* Tarjeta de consulta */
+.consult-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 60px var(--shadow-color);
+    padding: 40px 32px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    text-align: center;
+    transition: all var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+.consult-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    transition: color var(--transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.consult-title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    transition: color var(--transition);
+}
+
+.consult-description {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-size: 1.05rem;
+    transition: color var(--transition);
+}
+
+/* Código USSD */
+.code-display {
+    background: var(--input-bg);
+    border-radius: 12px;
+    padding: 20px 16px;
+    margin: 20px 0 24px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    border: 2px dashed var(--primary-color);
+    letter-spacing: 1px;
+    word-break: break-all;
+    font-family: 'Courier New', monospace;
+    transition: all var(--transition);
+}
+
+/* Campos de entrada */
+.input-group {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    transition: color var(--transition);
+}
+
+.input-label i {
+    margin-right: 6px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all var(--transition);
+    color: var(--text-primary);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+}
+
+/* Botones */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: 0 4px 14px var(--shadow-color);
+    width: 100%;
+    max-width: 320px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn i {
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(106, 17, 203, 0.35);
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+    background: rgba(108, 117, 125, 0.15);
+    color: var(--text-secondary);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(108, 117, 125, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Notificaciones */
+.notification {
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin: 20px 0 0;
+    display: none;
+    font-weight: 600;
+    text-align: left;
+    border-left: 4px solid transparent;
+}
+
+.notification i {
+    margin-right: 10px;
+}
+
+.notification.success {
+    background: var(--notification-success);
+    color: #276749;
+    border-left-color: #38a169;
+}
+
+.notification.error {
+    background: var(--notification-error);
+    color: #9b2c2c;
+    border-left-color: #e53e3e;
+}
+
+.notification.info {
+    background: var(--notification-info);
+    color: #2b6cb0;
+    border-left-color: #3182ce;
+}
+
+.notification.warning {
+    background: var(--notification-warning);
+    color: #975a16;
+    border-left-color: #d69e2e;
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    transition: all var(--transition);
+}
+
+.footer i {
+    margin-right: 6px;
+}
+
+.footer small {
+    display: block;
+    margin-top: 4px;
+    opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+
+    .sidebar {
+        width: 85%;
+        max-width: 300px;
+        border-radius: 0 20px 20px 0;
+    }
+
+    .main-content {
+        padding: 20px 16px;
+        margin-left: 0;
+    }
+
+    .consult-card {
+        padding: 28px 20px;
+    }
+
+    .consult-title {
+        font-size: 1.6rem;
+    }
+
+    .consult-icon {
+        font-size: 3rem;
+    }
+
+    .code-display {
+        font-size: 1.2rem;
+        padding: 16px;
+    }
+
+    .theme-modal-options {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .theme-option {
+        height: 40px;
+    }
+
+    .btn {
+        max-width: 100%;
+        padding: 14px 24px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        position: relative;
+        transform: translateX(0);
+        height: auto;
+        border-radius: 0 20px 20px 0;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .overlay {
+        display: none !important;
+    }
+
+    .theme-toggle-header {
+        display: none !important; /* En escritorio, el botón de temas no está en el header, está en el modal que se abre con un botón flotante o similar. Pero lo dejamos visible en escritorio también. */
+    }
+}
+
+/* Botón de temas en escritorio (flotante) */
+.theme-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(106, 17, 203, 0.4);
+    transition: all var(--transition);
+    display: none;
+    z-index: 500;
+}
+
+.theme-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(106, 17, 203, 0.6);
+}
+
+@media (min-width: 769px) {
+    .theme-fab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.consult-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Temas específicos */
+body.theme-dark {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --accent-color: #f093fb;
+    --bg-gradient: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    --sidebar-bg: linear-gradient(180deg, #1a202c 0%, #2d3748 100%);
+    --card-bg: rgba(26, 32, 44, 0.95);
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --text-light: #ffffff;
+    --border-color: #4a5568;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --input-bg: #2d3748;
+    --notification-success: #2d5c2d;
+    --notification-error: #5c2d2d;
+    --notification-info: #2d4a5c;
+    --notification-warning: #5c572d;
+}
+
+body.theme-light {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --accent-color: #e74c3c;
+    --bg-gradient: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+    --sidebar-bg: linear-gradient(180deg, #3498db 0%, #2980b9 100%);
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --text-primary: #2c3e50;
+    --text-secondary: #4a5568;
+    --text-light: #ffffff;
+    --border-color: #cbd5e0;
+    --shadow-color: rgba(52, 152, 219, 0.15);
+    --input-bg: #f7fafc;
+}
+
+body.theme-red {
+    --primary-color: #ff416c;
+    --secondary-color: #ff4b2b;
+    --accent-color: #ffeb3b;
+    --bg-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    --sidebar-bg: linear-gradient(180deg, #ff416c 0%, #e03a5a 100%);
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-light: #ffffff;
+    --border-color: #fed7d7;
+    --shadow-color: rgba(255, 65, 108, 0.2);
+    --input-bg: #fff5f7;
+}
+
+body.theme-green {
+    --primary-color: #11998e;
+    --secondary-color: #38ef7d;
+    --accent-color: #f7971e;
+    --bg-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --sidebar-bg: linear-gradient(180deg, #11998e 0%, #0f897f 100%);
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --text-primary: #1a3c34;
+    --text-secondary: #2d6459;
+    --text-light: #ffffff;
+    --border-color: #c8f4e0;
+    --shadow-color: rgba(17, 153, 142, 0.2);
+    --input-bg: #f0fdf9;
+}
+
+body.theme-blue {
+    --primary-color: #36d1dc;
+    --secondary-color: #5b86e5;
+    --accent-color: #ff9a9e;
+    --bg-gradient: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+    --sidebar-bg: linear-gradient(180deg, #36d1dc 0%, #5b86e5 100%);
+    --card-bg: rgba(255, 255, 255, 0.98);
+    --text-primary: #1a365d;
+    --text-secondary: #2d4a7d;
+    --text-light: #ffffff;
+    --border-color: #d1e9ff;
+    --shadow-color: rgba(54, 209, 220, 0.2);
+    --input-bg: #f0f9ff;
+}
+
+/* Accesibilidad y contraste */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media print {
+    .sidebar,
+    .mobile-header,
+    .btn,
+    .theme-modal {
+        display: none !important;
+    }
+    .main-content {
+        padding: 0;
+        background: white !important;
+    }
+    .consult-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+    .code-display {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+    }
+}
