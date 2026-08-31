@@ -650,7 +650,7 @@ body.theme-dark {
     --notification-warning: #5c572d;
 }
 
-/* ----- TEMA CLARO (CORREGIDO CONTRASTE) ----- */
+/* ----- TEMA CLARO (con azul) ----- */
 body.theme-light {
     --primary-color: #3498db;
     --secondary-color: #2980b9;
@@ -666,24 +666,23 @@ body.theme-light {
     --input-bg: #f7fafc;
 }
 
-/* 🔥 CORRECCIÓN: Header y botones en tema claro con texto oscuro */
+/* 🔥 Header del tema claro con AZUL (primary-color) en lugar de blanco */
 body.theme-light .mobile-header,
 body.theme-light .mobile-header h1,
 body.theme-light .mobile-header i,
 body.theme-light .menu-toggle,
 body.theme-light .theme-toggle-header {
-    color: #1a202c !important;
+    color: var(--primary-color) !important; /* #3498db */
 }
 
 body.theme-light .menu-toggle:hover,
 body.theme-light .theme-toggle-header:hover {
-    background: rgba(0, 0, 0, 0.08) !important;
+    background: rgba(0, 0, 0, 0.06) !important;
 }
 
-/* También ajustamos el fondo del header en claro para que el texto se vea bien */
 body.theme-light .mobile-header {
     background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%) !important;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06) !important;
 }
 
 /* ----- TEMA ROJO ----- */
