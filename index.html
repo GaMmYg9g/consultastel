@@ -4,82 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6a11cb">
-    <title>App Consultas Telefónicas</title>
+    <title>ConsulTel Pro</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.css"> 
-
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="theme-purple">
-    <!-- Header para móviles -->
+    <!-- Header para móviles y escritorio -->
     <div class="mobile-header">
-        <button class="menu-toggle" id="menuToggle">☰</button>
-        <h1>Consultas Telefónicas</h1>
-        <button class="theme-toggle" id="themeToggleMobile">🎨</button>
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <h1><i class="fas fa-phone-alt"></i> ConsulTel Pro</h1>
+        <button class="theme-toggle-header" id="themeToggleHeader"><i class="fas fa-palette"></i></button>
     </div>
     
     <!-- Overlay para menú móvil -->
     <div class="overlay" id="overlay"></div>
     
     <div class="app-container">
-        <!-- Menú lateral -->
+        <!-- Menú lateral (SOLO CONSULTAS) -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>Menú de Consultas</h2>
-                <p>Todas tus consultas telefónicas</p>
-            </div>
-            
-            <!-- Selector de temas -->
-            <div class="theme-selector">
-                <h3>Selecciona un tema:</h3>
-                <div class="theme-options">
-                    <div class="theme-option theme-purple active" data-theme="purple"></div>
-                    <div class="theme-option theme-red" data-theme="red"></div>
-                    <div class="theme-option theme-green" data-theme="green"></div>
-                    <div class="theme-option theme-blue" data-theme="blue"></div>
-                    <div class="theme-option theme-dark" data-theme="dark"></div>
-                    <div class="theme-option theme-light" data-theme="light"></div>
-                </div>
+                <h2><i class="fas fa-phone-alt"></i> ConsulTel</h2>
+                <p><i class="fas fa-bolt"></i> Consultas rápidas</p>
             </div>
             
             <ul class="menu-items">
                 <li class="menu-item active" data-consult="saldo">
-                    <span class="menu-icon">💰</span>
+                    <span class="menu-icon"><i class="fas fa-wallet"></i></span>
                     <span>Consultar Saldo</span>
                 </li>
                 <li class="menu-item" data-consult="datos">
-                    <span class="menu-icon">⏳</span>
+                    <span class="menu-icon"><i class="fas fa-clock"></i></span>
                     <span>¿Cuándo me recargo?</span>
                 </li>
                 <li class="menu-item" data-consult="voz">
-                    <span class="menu-icon">📞</span>
+                    <span class="menu-icon"><i class="fas fa-phone"></i></span>
                     <span>Planes de Voz</span>
                 </li>
                 <li class="menu-item" data-consult="sms">
-                    <span class="menu-icon">💬</span>
+                    <span class="menu-icon"><i class="fas fa-sms"></i></span>
                     <span>Planes SMS</span>
                 </li>
                 <li class="menu-item" data-consult="bonos">
-                    <span class="menu-icon">🎁</span>
+                    <span class="menu-icon"><i class="fas fa-gift"></i></span>
                     <span>Consultar Bonos</span>
                 </li>
                 <li class="menu-item" data-consult="paquetes">
-                    <span class="menu-icon">🛒</span>
+                    <span class="menu-icon"><i class="fas fa-shopping-cart"></i></span>
                     <span>Comprar Paquetes</span>
                 </li>
                 <li class="menu-item" data-consult="cliente">
-                    <span class="menu-icon">👨‍💼</span>
+                    <span class="menu-icon"><i class="fas fa-headset"></i></span>
                     <span>Atención al Cliente</span>
                 </li>
                 <li class="menu-item" data-consult="buzon">
-                    <span class="menu-icon">📱</span>
+                    <span class="menu-icon"><i class="fas fa-voicemail"></i></span>
                     <span>Buzón de Voz</span>
                 </li>
                 <li class="menu-item" data-consult="transferir">
-                    <span class="menu-icon">🔄</span>
+                    <span class="menu-icon"><i class="fas fa-exchange-alt"></i></span>
                     <span>Transferir Saldo</span>
                 </li>
                 <li class="menu-item" data-consult="plan-amigo">
-                    <span class="menu-icon">👥</span>
+                    <span class="menu-icon"><i class="fas fa-users"></i></span>
                     <span>Plan Amigo</span>
                 </li>
             </ul>
@@ -89,7 +77,7 @@
         <main class="main-content" id="mainContent">
             <!-- Tarjeta de consulta dinámica -->
             <div class="consult-card">
-                <div class="consult-icon" id="consultIcon">💰</div>
+                <div class="consult-icon" id="consultIcon"><i class="fas fa-wallet"></i></div>
                 <h2 class="consult-title" id="consultTitle">Consultar Saldo</h2>
                 <p class="consult-description" id="consultDescription">
                     Consulta tu saldo actual en tu línea telefónica.
@@ -102,43 +90,61 @@
                 <div class="code-display" id="codeDisplay">*222#</div>
                 
                 <!-- Botones de acción -->
-                <button id="actionBtn" class="btn">Consultar Saldo</button>
-                <button id="copyBtn" class="btn btn-secondary">Copiar Código</button>
+                <div class="action-buttons">
+                    <button id="actionBtn" class="btn btn-primary"><i class="fas fa-phone"></i> Consultar Saldo</button>
+                    <button id="copyBtn" class="btn btn-secondary"><i class="fas fa-copy"></i> Copiar Código</button>
+                </div>
                 
                 <!-- Notificación -->
                 <div id="notification" class="notification"></div>
             </div>
             
             <div class="footer">
-                Realiza tus consultas telefonicas de manera más facil y dinamica.
-                <br><small>Versión 1.0.2 - Compatible con iPhone y Android</small>
+                <i class="fas fa-bolt"></i> Realiza tus consultas telefónicas de manera fácil y dinámica.
+                <br><small><i class="fas fa-code-branch"></i> Versión 2.0.0</small>
             </div>
         </main>
     </div>
 
-<script src="app.js"></script>
+    <!-- Modal para la paleta de colores (independiente) -->
+    <div class="theme-modal" id="themeModal">
+        <div class="theme-modal-content">
+            <div class="theme-modal-header">
+                <h3><i class="fas fa-paint-brush"></i> Elige tu tema</h3>
+                <button class="theme-modal-close" id="themeModalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="theme-modal-options">
+                <div class="theme-option theme-purple active" data-theme="purple" title="Morado"></div>
+                <div class="theme-option theme-red" data-theme="red" title="Rojo"></div>
+                <div class="theme-option theme-green" data-theme="green" title="Verde"></div>
+                <div class="theme-option theme-blue" data-theme="blue" title="Azul"></div>
+                <div class="theme-option theme-dark" data-theme="dark" title="Oscuro"></div>
+                <div class="theme-option theme-light" data-theme="light" title="Claro"></div>
+            </div>
+            <p class="theme-modal-footer">Selecciona un color para personalizar la app</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
     <script>
-// Registrar Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    // Ruta RELATIVA para GitHub Pages
-    navigator.serviceWorker.register('./sw.js')
-      .then(function(registration) {
-        console.log('✅ ServiceWorker registrado en:', registration.scope);
-        
-        // Verificar si ya está controlando la página
-        if (navigator.serviceWorker.controller) {
-          console.log('✅ ServiceWorker está controlando la página');
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(registration) {
+                        console.log('✅ ServiceWorker registrado en:', registration.scope);
+                        if (navigator.serviceWorker.controller) {
+                            console.log('✅ ServiceWorker está controlando la página');
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log('❌ Error al registrar ServiceWorker:', error);
+                    });
+            });
+        } else {
+            console.log('❌ ServiceWorker no soportado en este navegador');
         }
-      })
-      .catch(function(error) {
-        console.log('❌ Error al registrar ServiceWorker:', error);
-      });
-  });
-} else {
-  console.log('❌ ServiceWorker no soportado en este navegador');
-}
-</script>
-    
+    </script>
 </body>
 </html>
