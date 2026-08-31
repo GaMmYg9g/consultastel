@@ -1,12 +1,12 @@
-// sw.js - VERSIÓN CORREGIDA para GitHub Page
-const CACHE_NAME = 'consultas-telefonicas-v5';
+// sw.js - VERSIÓN ACTUALIZADA con rutas a carpetas css/ y js/
+const CACHE_NAME = 'consultas-telefonicas-v6';
 const urlsToCache = [
-  './',                    // IMPORTANTE: ./ en lugar de /
+  './',                     // index.html
   './index.html',
   './manifest.json',
   './icon-144x144.png',
-  './script.js',
-  './style.css'
+  './css/styles.css',       // ← ruta actualizada
+  './js/app.js'             // ← ruta actualizada
 ];
 
 self.addEventListener('install', event => {
